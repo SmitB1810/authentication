@@ -39,10 +39,10 @@ class AuthController extends Controller
                 'message' => 'User created successfully.',
 
             ], 200);
-        } catch (\Throwable $th) {
+        } catch (\Throwable $e) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
+                'message' => $e->getMessage()
             ], 500);
         }
     }
@@ -63,14 +63,6 @@ class AuthController extends Controller
                 ]);
             }
 
-            // if (!Auth::attempt($request->only(['email']))) {
-            //     return response()->json([
-            //         'status' => false,
-            //         'message' => 'Email or password is worong!',
-            //         'errors' => $validateUser->errors()
-            //     ], 401);
-            // }
-
             $user = User::where('email', $request->email)->first();
             $credentials = $request->only('email', 'password');
 
@@ -82,10 +74,10 @@ class AuthController extends Controller
                 ], 200);
             }
 
-        } catch (\Exception $th) {
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
+                'message' => $e->getMessage()
             ], 500);
         }
     }
@@ -106,10 +98,10 @@ class AuthController extends Controller
                     'message' => 'unauthorized access.',
                 ]);
             }
-        } catch (\Exception $th) {
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
+                'message' => $e->getMessage()
             ], 500);
         }
     }
