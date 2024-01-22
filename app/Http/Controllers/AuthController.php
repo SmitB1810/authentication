@@ -14,6 +14,7 @@ class AuthController extends Controller
     public function createUser(Request $request)
     {
         try {
+            // Validating the Requested Data
             $validateUser = Validator::make(
                 $request->all(),
                 [
@@ -29,6 +30,8 @@ class AuthController extends Controller
                     'errors' => $validateUser->errors()
                 ], 401);
             }
+
+            // Creating User
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -36,8 +39,7 @@ class AuthController extends Controller
             ], 401);
             return response()->json([
                 'status' => true,
-                'message' => 'User created successfully.',
-
+                'message' => 'User created successfully',
             ], 200);
         } catch (\Throwable $e) {
             return response()->json([
@@ -50,6 +52,7 @@ class AuthController extends Controller
     public function loginUser(Request $request)
     {
         try {
+            // Validating the Requested Data
             $validateUser = Validator::make($request->all(), [
                 'email' => 'required|email',
                 'password' => 'required'
@@ -63,6 +66,7 @@ class AuthController extends Controller
                 ]);
             }
 
+            // Finding user with the similar email
             $user = User::where('email', $request->email)->first();
             $credentials = $request->only('email', 'password');
 
@@ -73,7 +77,6 @@ class AuthController extends Controller
                     'token' => $user->createToken("API TOKEN")->plainTextToken
                 ], 200);
             }
-
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
@@ -90,12 +93,12 @@ class AuthController extends Controller
                 $token->delete();
                 return response()->json([
                     'status' => true,
-                    'message' => 'Logout successfully.'
+                    'message' => 'Logout successfully'
                 ], 200);
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'unauthorized access.',
+                    'message' => 'Unauthorized Access',
                 ]);
             }
         } catch (\Exception $e) {

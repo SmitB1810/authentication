@@ -23,10 +23,9 @@ Route::post('auth/register', [AuthController::class, 'createUser']);
 Route::post('auth/login', [AuthController::class, 'loginUser']);
 
 Route::group(['middleware'=> 'auth:sanctum'], function () {
-   
     Route::get('home', function () {
         return response()->json([
-            "message"=>'Welcome.'
+            "message"=>'Welcome to Medkart'
         ]);
     });
     
